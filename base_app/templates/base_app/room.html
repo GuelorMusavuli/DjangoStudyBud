@@ -30,7 +30,7 @@
         {# Injecting the content#}
         {% for message in room_messages %}
             <div class="">
-              <!-- only the owner can see this option -->
+                <!-- only the current owner of the message can delete his messages from the room -->
                 {% if request.user == message.user %}
                   <a href="{% url 'delete-message' message.id %}">Delete</a>
                 {% endif %}

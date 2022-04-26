@@ -20,6 +20,7 @@ class Room(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
+    # To get the most recent rooms
     class Meta:
         ordering = ['-updated_date', '-created_date']
 
@@ -32,6 +33,10 @@ class Message(models.Model):
     body = models.TextField()
     updated_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    # To get the most recent messages
+    class Meta:
+        ordering = ['-updated_date', '-created_date']
 
     def __str__(self):
         return self.body[0:50] # displays only 5o chars and not the full msg

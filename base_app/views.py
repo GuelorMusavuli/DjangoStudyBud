@@ -84,7 +84,11 @@ def home(request):
     )
     topics = Topic.objects.all() # get all the topics
     room_count = rooms.count() # get rooms count
-    context =  {'rooms' : rooms, 'topics': topics, 'room_count': room_count}
+
+    # messages for the recent activities that can be sorted based on a topic/room name
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+
+    context =  {'rooms' : rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base_app/home.html', context)
 
 def room(request, pk):
@@ -92,7 +96,7 @@ def room(request, pk):
 
     # query to the children objects of a specific room
     # in this case, get the set of all messages related to a specific room
-    room_messages = room.message_set.all().order_by('-created_date')
+    room_messages = room.message_set.all()
 
     # Get participants
     participants = room.participants.all()
