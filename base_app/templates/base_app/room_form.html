@@ -1,0 +1,18 @@
+{% extends 'base_app/base.html' %}
+
+{% block content %}
+
+  <h1>Room Creation</h1>
+
+
+  <div>
+
+    <form action="" method="post">
+      {% csrf_token %}
+      {{form.as_p}}
+      <input type="submit" value="Submit">
+
+    </form>
+  </div>
+
+{% endblock %}

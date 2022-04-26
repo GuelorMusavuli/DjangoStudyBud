@@ -1,0 +1,37 @@
+{% extends 'base_app/base.html' %}
+
+{% block content %}
+
+  {% if page == 'login' %}
+      <!-- CUSTOM LOGIN FORM TO BE USED IN PLACE OF BUILT-IN ONE -->
+      <div class="">
+        <form method="POST" action="">
+          {% csrf_token %}
+            {{form.as_p}}
+            <label>Username :</label>
+            <input type="text"  name="username" placeholder="Enter Username"/>
+
+            <label>Password :</label>
+            <input type="password"  name="password" placeholder="Enter Password"/>
+
+            <input type="submit"  value="Login" />
+        </form>
+        <p>Haven't signed yet ?</p>
+        <a href="{% url 'register' %}">Sign up</a>
+      </div>
+
+  {% else %}
+
+      <!-- CUSTOM REGISTRATION FORM TO BE USED IN PLACE OF BUILT-IN ONE -->
+      <div class="">
+        <form method="POST" action="">
+          {% csrf_token %}
+            {{form.as_p}}
+            <!-- fields will be auto generated using django built-in user creation form-->
+            <input type="submit"  value="Register" />
+        </form>
+        <p>Already signed yet ?</p>
+        <a href="{% url 'login' %}">Login</a>
+      </div>
+  {% endif %}
+{% endblock %}

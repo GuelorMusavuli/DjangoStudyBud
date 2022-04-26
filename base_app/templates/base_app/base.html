@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"  content="IE=edge">
+    <meta name="viewport"  content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type='text/css' media="screen" href="base.css">
+    <<script type="text/javascript" src='base.js'></script> -->
+    <title>StudyBud</title>
+  </head>
+  <body>
+    <!--Navigation bar -->
+    {% include 'base_app/navbar.html' %}
+
+    <!-- login status messages in case user does not exist -->
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li {% if message.tags %} class="{{messages.tags}}" {% endif %}>{{message}}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <!-- Body content -->
+    {% block content %}
+
+
+    {% endblock %}
+  </body>
+</html>
