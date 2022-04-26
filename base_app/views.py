@@ -85,7 +85,7 @@ def home(request):
     topics = Topic.objects.all() # get all the topics
     room_count = rooms.count() # get rooms count
 
-    # messages for the recent activities that can be sorted based on a topic/room name
+    # Filter recent activities(conversations) to a topic name or all.
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
 
     context =  {'rooms' : rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}

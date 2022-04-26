@@ -15,66 +15,21 @@
 
       <!-- LEFT SIDE BAR FOR TOPICS -->
       <div class="">
-        <h3>Browse Topics</h3>
-        <hr>
-
-        <div class="">
-          <a href="{% url 'home' %}">All</a>
-        </div>
-
-        {% for topic in topics %}
-          <div class="">
-            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
-          </div>
-        {% endfor %}
+        {% include 'base_app/topics_component.html' %}
       </div>
 
-      <!-- CENTER SIDE FOR ROOMS -->
+      <!-- CENTER SIDE FOR ROOMS OR FEEDS -->
       <div class="">
         <h5> {{room_count}} rooms vailable</h5><!-- Room counting -->
         <a href="{% url 'create-room' %}"> Create Room</a>
 
-        <div>
-          {% for room in rooms %}
-            <div>
-              <a href="{% url 'update-room' room.id %}"> Edit</a>
-              <a href="{% url 'delete-room' room.id %}"> Delete</a>
-              <span>@{{room.host.username}}</span>
-              <h5>{{room.id}} -- <a href="{% url 'room' room.id %}">{{room.name}}</h5></a>
-              <small>{{room.topic.name}}</small>
-              <hr>
-            </div>
-
-          {% endfor %}
-
-        </div>
+        {% include 'base_app/feed_component.html' %}
 
       </div>
       
       <!-- RIGHT SIDE BAR FOR RECENT ACTIVITIES -->
       <div class="">
-        <h3>Recent Avtivities </h3>
-        <hr>
-        
-        <!-- <div class="">
-          <a href="{% url 'home' %}">All</a>
-        </div> -->
-
-        {% for message in room_messages %}
-          <div class="">
-            <small>@{{message.user}}  {{message.created_date|timesince}} ago</small>
-            <small>replied to "{{message.room}}"</small>
-          
-            <!--  Display just the string representation of the msg(message) and not the full one (message.body)-->
-            <p>{{message}}</p>
-            
-            <!-- only the current owner of the message can delete his messages from the activity fields(recent activities)-->
-            {% if request.user == message.user %}
-              <a href="{% url 'delete-message' message.id %}">Delete</a>
-            {% endif %}
-            <hr>
-          </div>
-        {% endfor %}
+         {% include 'base_app/activity_component.html' %}
       </div>
 
 

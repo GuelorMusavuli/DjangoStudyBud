@@ -1,0 +1,22 @@
+<!-- Reusable component that holds the recent activities(i.e.  conversations) to be used inside home page (for all users ) and inside profile page (for a specific user) -->  
+
+<!-- Activities component -->
+
+<h3>Recent Avtivities </h3>
+<hr>
+{% for message in room_messages %}
+  <div class="">
+    <small>@{{message.user}}  {{message.created_date|timesince}} ago</small>
+    <small>replied to "{{message.room}}"</small>
+  
+    <!--  Display just the string representation of the msg(message) and not the full one (message.body)-->
+    <p>{{message}}</p>
+    
+    <!-- only the current owner of the message can delete his messages from the activity fields(recent activities)-->
+    {% if request.user == message.user %}
+      <a href="{% url 'delete-message' message.id %}">Delete</a>
+    {% endif %}
+    <hr>
+  </div>
+{% endfor %}
+  

@@ -1,0 +1,14 @@
+<!-- Reusable component that holds the topics to be used inside home page (for all users ) and inside profile page (for a specific user) -->  
+
+<h3>Browse Topics</h3>
+<hr>
+
+<div class="">
+  <a href="{% url 'home' %}">All</a>
+</div>
+
+{% for topic in topics %}
+  <div class="">
+    <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+  </div>
+{% endfor %}
