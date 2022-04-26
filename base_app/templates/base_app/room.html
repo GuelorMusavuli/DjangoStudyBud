@@ -1,9 +1,70 @@
 {% extends 'base_app/base.html' %}
 
 {% block content %}
-  <h1>Room Template</h1>
-  <p>Welcome to the Room space!</p>
 
-  <h1>{{room.name}}</h1>
+  <!-- Layout for the page -->
+  <style>
+      .room-container {
+         display: grid;
+         grid-template-columns: 3fr 1fr;
+      }
+  </style>
 
+  <!-- CONTAINER FOR THE ENTIRE ROOM  -->
+  <div class="room-container">
+
+    <!-- WRAPPER AROUND ALL THE MESSAGES AND THE FORM -->
+    <div >
+      <!-- The name of the room -->
+      <h1>{{room.name}}</h1>
+
+      <!-- Description of the room -->
+      <p>{{room.description}}</p>
+
+
+      <!-- Container for the actual conversation(comments) of the participants -->
+      <div class="comment-wrapper">
+        <h3>conversation</h3>
+        <hr>
+
+        {# Injecting the content#}
+        {% for message in room_messages %}
+            <div class="">
+              <!-- only the owner can see this option -->
+                {% if request.user == message.user %}
+                  <a href="{% url 'delete-message' message.id %}">Delete</a>
+                {% endif %}
+                
+                <small>@{{message.user}}  {{message.created_date|timesince}} ago</small>
+                <p>{{message.body}}</p>
+                <hr>
+            </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Form container for only the authenticated user to enter/edit their own messages/comments -->
+      {% if request.user.is_authenticated %}
+      <div class="comment-form">
+        <form action="" method="post">
+          {% csrf_token %}
+          <input type="text" name="body" placeholder="Write your message here...">
+        </form>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- RIGHT SIDE BAR FOR PARTICIPANTS -->
+    <div class="">
+      <h3>Participants</h3>
+      <hr>
+      
+      {% for user in participants %}
+        <div class="">
+            <p>@{{user.username}}</p>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
 {% endblock %}

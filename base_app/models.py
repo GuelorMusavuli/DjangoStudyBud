@@ -16,7 +16,7 @@ class Room(models.Model):
     name = models.CharField(max_length=200)
     # null means this field can be blank in the DB, blank means we can insert empty form on submission
     description = models.TextField(null=True, blank=True)
-    # participants =
+    participants = models.ManyToManyField(User, related_name='participants', blank=True )
     updated_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
 

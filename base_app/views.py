@@ -6,7 +6,7 @@ from django.db.models import Q # for seqrch query
 from django.contrib.auth.models import User # built-in user
 from django.contrib.auth import authenticate, login, logout # built-in methods
 from django.contrib.auth.forms import UserCreationForm # built-in usercreation form
-from .models import Room, Topic # models
+from .models import Room, Topic, Message # models
 from .forms import RoomForm # custom forms
 
 
@@ -19,9 +19,12 @@ from .forms import RoomForm # custom forms
 
 def loginUser(request):
     page = 'login'
+
+    # redirect user back to home page once authenticated to avoid displaying the login form again.
     if request.user.is_authenticated:
         return redirect ('home')
 
+    # Processing of the user credentials to be logged in
     if request.method == 'POST':
         # Retrieve user credentials
         username = request.POST.get('username').lower()
@@ -37,7 +40,7 @@ def loginUser(request):
         # and get the user object that matches/based on the credentials.
         user = authenticate(request, username=username, password=password)
 
-        # log in the user. This creates a session in the DB and the Browser
+        # log in the user and redirect them to the home page. This creates a session in the DB and the Browser
         if user is not None :
             login(request, user)
             return redirect('home')
@@ -54,6 +57,7 @@ def logoutUser(request):
 def registerUser(request):
     form = UserCreationForm()
 
+    # Processing of the user credentials to be created/registered
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -85,10 +89,28 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk) # get a single object/room that matchs the attrib
-    # for i in rooms:
-    #     if i['id'] == int(pk):
-    #         room = i
-    context = {'room' : room }
+
+    # query to the children objects of a specific room
+    # in this case, get the set of all messages related to a specific room
+    room_messages = room.message_set.all().order_by('-created_date')
+
+    # Get participants
+    participants = room.participants.all()
+
+    # Processing of the new participant's comments or messages to be added
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user = request.user, # logged i user
+            room = room,
+            body = request.POST.get('body') # body passed in the room_message form
+        )
+        # Add a new user to the ManyToManyField and render their info out in the participant section
+        room.participants.add(request.user)
+
+        # redirect the user to the room after entering the message
+        return redirect ('room', pk=room.id)
+
+    context = {'room' : room, 'room_messages': room_messages, 'participants': participants }
     return render(request, 'base_app/room.html', context)
 
 # only authenticated user can create room. Otherwise, redirect/force them to login
@@ -96,7 +118,7 @@ def room(request, pk):
 def createRoom(request):
     form = RoomForm()
 
-    # Process data
+    # Processing of the room data to be created
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
@@ -117,6 +139,7 @@ def updateRoom(request, pk):
     if request.user != room.host :
         return HttpResponse('Your are not allowed here!!')
 
+    # Processing of the room data to updated
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
         if form.is_valid():
@@ -134,9 +157,27 @@ def deleteRoom(request, pk):
     if request.user != room.host :
         return HttpResponse('Your are not allowed here!!')
 
+    # Processing of the room data to be deleted
     if request.method == 'POST':
         room.delete()
         return redirect('home')
 
     context = {'obj' : room}
+    return render(request, 'base_app/room_confirm_delete.html', context)
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+
+    # User who is not the owner of the message is not allowed to delete it
+    if request.user != message.user :
+        return HttpResponse('Your are not allowed here!!')
+
+    # Processing of the message data to be deleted
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+
+    context = {'obj' : message}
     return render(request, 'base_app/room_confirm_delete.html', context)
