@@ -1,12 +1,10 @@
 <!-- Reusable component that holds the recent activities(i.e.  conversations) to be used inside home page (for all users ) and inside profile page (for a specific user) -->  
 
-<!-- Activities component -->
-
 <h3>Recent Avtivities </h3>
 <hr>
 {% for message in room_messages %}
   <div class="">
-    <small>@{{message.user}}  {{message.created_date|timesince}} ago</small>
+    <small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a>  {{message.created_date|timesince}} ago</small>
     <small>replied to "{{message.room}}"</small>
   
     <!--  Display just the string representation of the msg(message) and not the full one (message.body)-->
