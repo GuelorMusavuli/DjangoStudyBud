@@ -1,0 +1,38 @@
+{% extends 'base_app/base.html' %}
+
+{% block content %}
+
+  <!-- LAYOUT STYLE-->
+  <style>
+    .home-container {
+       display: grid;
+       grid-template-columns: 1fr 3fr 1fr;
+   }
+  </style>
+
+  <!-- MAIN CONTAINER -->
+  <div class="home-container">
+
+      <!-- LEFT SIDE BAR FOR TOPICS -->
+      <div class="">
+        {% include 'base_app/topics_component.html' %}
+      </div>
+
+      <!-- CENTER SIDE FOR ROOMS OR FEEDS -->
+      <div class="">
+        <h5> {{room_count}} rooms vailable</h5><!-- Room counting -->
+        <a href="{% url 'create-room' %}"> Create Room</a>
+
+
+        {% include 'base_app/feed_component.html' %}
+
+      </div>
+      
+      <!-- RIGHT SIDE BAR FOR RECENT ACTIVITIES -->
+      <div class="">
+         {% include 'base_app/activity_component.html' %}
+      </div>
+
+  </div>
+
+{% endblock %}

@@ -1,35 +1,50 @@
 {% extends 'base_app/base.html' %}
 
+<!-- PROFILE MAIN CONTAINER -->
 {% block content %}
-  
-  <style>
-    .profile-container{
-      display : grid;
-      grid-template-columns : 1fr 3fr 1fr;
+<main class="profile-page layout layout--3">
+  <div class="container">
+    <!-- TOPICS LEFT SIDE SECTION -->
+    {% include 'base_app/topics_component.html' %}
+
+    <!-- ROOM LIST CENTER SECTION  -->
+    <div class="roomList">
+      <div class="profile">
+        <div class="profile__avatar">
+          <div class="avatar avatar--large active">
+            <img src="https://randomuser.me/api/portraits/men/11.jpg" />
+          </div>
+        </div>
+        <div class="profile__info">
+          <h3>{{user.username}}</h3> <!-- username-->
+          <p>@{{user.username}}</p>
+          <a href="edit-user.html" class="btn btn--main btn--pill">Edit Profile</a>
+        </div>
+        <div class="profile__about">
+          <h3>About</h3>
+          <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+      </div>
+
+      <div class="roomList__header">
+        <div>
+          <h2>Study Rooms Hosted by dennis_ivy</a>
+          </h2>
+        </div>
+      </div>
       
-    }
-  </style>
-
-  <h1>{{user.username}}</h1>
-  
-  <!-- PROFILE CONTAINER -->
-  <div class="profile-container">
-    <!-- TOPICS -->
-    <div class="">
-        {% include 'base_app/topics_component.html' %}
-    </div>
-    
-    <!-- FEEDS -->
-    <div class="">
+      <!-- Room list items (the actual feeds) section  --> 
       {% include 'base_app/feed_component.html' %}
+
+
     </div>
     
-    <!-- ACTIVITIES -->
-    <div class="">
-      {% include 'base_app/activity_component.html' %}
-    </div>
-    
+
+    <!-- RECENT ACTIVITIES RIGHT SIDE SECTION -->
+    {% include 'base_app/activity_component.html' %}
+  
   </div>
-
-
-{% endblock %}
+</main>
+{% endblock content %}

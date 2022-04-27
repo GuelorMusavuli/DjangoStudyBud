@@ -15,6 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR/'base_app/templates/base_app'
+STATIC_DIR = BASE_DIR/'static'
+MEDIA_DIR = BASE_DIR/'media'
 
 
 
@@ -121,6 +123,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [STATIC_DIR]
+
+# Media Information (Pictures, Videos, Audios)
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
