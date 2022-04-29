@@ -197,7 +197,7 @@ def deleteRoom(request, pk):
         return redirect('home')
 
     context = {'obj' : room}
-    return render(request, 'base_app/room_confirm_delete.html', context)
+    return render(request, 'base_app/delete.html', context)
 
 
 @login_required(login_url='login')
@@ -214,7 +214,7 @@ def deleteMessage(request, pk):
         return redirect('home')
 
     context = {'obj' : message}
-    return render(request, 'base_app/room_confirm_delete.html', context)
+    return render(request, 'base_app/delete.html', context)
 
 @login_required(login_url='login')
 def updateUser(request):
