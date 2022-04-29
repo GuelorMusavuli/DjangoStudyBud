@@ -7,7 +7,7 @@ from django.contrib.auth.models import User # built-in user
 from django.contrib.auth import authenticate, login, logout # built-in methods
 from django.contrib.auth.forms import UserCreationForm # built-in usercreation form
 from .models import Room, Topic, Message # models
-from .forms import RoomForm # custom forms
+from .forms import RoomForm, UserForm # custom forms
 
 
 # Create your views here
@@ -48,7 +48,7 @@ def loginUser(request):
             messages.error(request, 'Username OR password does not exist')
 
     context = {'page' : page}
-    return render(request, 'registration/login_register.html', context)
+    return render(request, 'registration/login-register.html', context)
 
 def logoutUser(request):
     logout(request) # This is gonna delete the session token, therefore the user.
@@ -69,7 +69,7 @@ def registerUser(request):
         else:
             messages.error(request, 'An error occured during registration')
 
-    return render(request, 'registration/login_register.html', {'form':form})
+    return render(request, 'registration/login-register.html', {'form':form})
 
 def home(request):
     # Search for the room based on the query/search params in the url
@@ -123,7 +123,7 @@ def userProfile(request, pk):
     room_messages = user.message_set.all()
     topics = Topic.objects.all()
     context = {'user': user, 'rooms': rooms, 'room_messages': room_messages,'topics': topics}
-    return render(request, 'base_app/profile.html', context)
+    return render(request, 'registration/profile.html', context)
 
 
 
@@ -151,7 +151,7 @@ def createRoom(request):
         return redirect('home')
 
     context = {'form': form, 'topics': topics}
-    return render(request, 'base_app/create_update_room.html', context)
+    return render(request, 'base_app/create-update-room.html', context)
 
 @login_required(login_url='login')
 def updateRoom(request, pk):
@@ -181,7 +181,7 @@ def updateRoom(request, pk):
         return redirect('home')
 
     context = {'form' : form, 'topics': topics, 'room': room}
-    return render(request, 'base_app/create_update_room.html', context)
+    return render(request, 'base_app/create-update-room.html', context)
 
 @login_required(login_url='login')
 def deleteRoom(request, pk):
@@ -215,3 +215,16 @@ def deleteMessage(request, pk):
 
     context = {'obj' : message}
     return render(request, 'base_app/room_confirm_delete.html', context)
+
+@login_required(login_url='login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=request.user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+
+    return render(request, 'registration/update-user.html', {'form': form})

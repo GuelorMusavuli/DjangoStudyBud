@@ -18,6 +18,7 @@
         </div>
       </div>
       <div class="layout__body">
+        
         <form class="form" action="" method="POST">
           {% csrf_token %}
           
@@ -37,24 +38,18 @@
           <div class="form__group">
             <label for="room_name">Room Name</label>
             {{form.name}} <!-- get the form field   -->
-  
           </div>
           
           <div class="form__group">
             <label for="room_description">About the Room</label>
             {{form.description}} 
-  
           </div>
         
-
-          <!-- <div class="form__group">
-            <label for="room_about">About</label>
-            <textarea name="room_about" id="room_about" placeholder="Write about your study group..."></textarea>
-          </div> -->
           <div class="form__action">
             <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
             <button class="btn btn--main" type="submit">Submit</button>
           </div>
+          
         </form>
       </div>
     </div>
