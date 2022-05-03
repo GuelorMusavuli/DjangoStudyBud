@@ -48,7 +48,7 @@ def loginUser(request):
             messages.error(request, 'Username OR password does not exist')
 
     context = {'page' : page}
-    return render(request, 'registration/login-register.html', context)
+    return render(request, 'registration/login_register.html', context)
 
 def logoutUser(request):
     logout(request) # This is gonna delete the session token, therefore the user.
@@ -69,7 +69,7 @@ def registerUser(request):
         else:
             messages.error(request, 'An error occured during registration')
 
-    return render(request, 'registration/login-register.html', {'form':form})
+    return render(request, 'registration/login_register.html', {'form':form})
 
 def home(request):
     # Search for the room based on the query/search params in the url
