@@ -82,7 +82,7 @@ def home(request):
         Q(description__icontains=q)
 
     )
-    topics = Topic.objects.all() # get all the topics
+    topics = Topic.objects.all()[0:5] # get top 5 topics
     room_count = rooms.count() # get rooms count
 
     # Filter recent activities(conversations) to a topic name or all.
@@ -228,3 +228,16 @@ def updateUser(request):
             return redirect('user-profile', pk=user.id)
 
     return render(request, 'registration/update-user.html', {'form': form})
+
+def topicsPage(request):
+    # Search for the topic based on the query/search params(i.e. its name)
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    topics = Topic.objects.filter(name__icontains=q)
+    context = {'topics': topics}
+    return render(request, 'base_app/topics.html', context)
+
+def activityPage(request):
+    # Search for the topic based on the query/search params(i.e. its name)
+    # q = request.GET.get('q') if request.GET.get('q') != None else ''
+    room_messages = Message.objects.all()
+    return render(request, 'base_app/activity.html', {'room_messages': room_messages})
