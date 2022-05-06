@@ -140,16 +140,16 @@
       <!-- scroll list -->
       <div class="participants__list scroll">
         {% for user in participants %}
-        <a href="{% url 'user-profile' user.id %}" class="participant">
-          <div class="avatar avatar--medium">
-            <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-          </div>
-          <p>
-            {{user.username}}
-            <span>@{{user.username}}</span>
-          </p>
-        </a>
-        {% endfor %}
+          <a href="{%  url 'user-profile' user.id %}" class="participant">
+            <div class="avatar avatar--medium">
+              <img src="{{user.avatar.url}}" />
+            </div>
+            <p>
+              {{user.name}}
+              <span>@S{{user.username}}</span>
+            </p>
+          </a>
+      {% endfor %}
       </div>
     </div>
   </div>

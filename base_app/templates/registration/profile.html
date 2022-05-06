@@ -12,7 +12,7 @@
       <div class="profile">
         <div class="profile__avatar">
           <div class="avatar avatar--large active">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" />
+            <img src="{{user.avatar.url}}" />
           </div>
         </div>
         <div class="profile__info">
@@ -25,7 +25,7 @@
         <div class="profile__about">
           <h3>About</h3>
           <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex 
+            {{user.bio}}
           </p>
         </div>
       </div>
