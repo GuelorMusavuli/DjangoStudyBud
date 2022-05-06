@@ -16,7 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR/'base_app/templates/base_app'
 STATIC_DIR = BASE_DIR/'static'
-MEDIA_DIR = BASE_DIR/'media'
+MEDIA_DIR = BASE_DIR/'static/media'
 
 
 
@@ -131,8 +131,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR]
 
-# Media Information (Pictures, Videos, Audios)
-MEDIA_ROOT = MEDIA_DIR
+# For user uploaded Media Information (Pictures, Videos, Audios, Files, etc)
+MEDIA_ROOT = MEDIA_DIR # where to upload the media
 MEDIA_URL = '/media/'
 
 # Default primary key field type

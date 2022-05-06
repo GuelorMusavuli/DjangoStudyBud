@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings # access to settings.py
+from django.conf.urls.static import static  # File path to the static url in settings.py
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base_app.urls')),
     path('api/', include('base_app.api.urls'))
 ]
+
+# Set the url with a file path MEDIA_URL from settings and get the files from MEDIA_ROOT
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

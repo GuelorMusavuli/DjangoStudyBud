@@ -4,9 +4,8 @@ from django.contrib import messages # for flash messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q # for seqrch query
 from django.contrib.auth import authenticate, login, logout # built-in methods
-from django.contrib.auth.forms import UserCreationForm # built-in usercreation form
 from .models import Room, Topic, Message, User # models
-from .forms import RoomForm, UserForm # custom forms
+from .forms import RoomForm, UserForm, MyUserCreationForm  # custom forms
 
 
 # Create your views here
@@ -26,18 +25,18 @@ def loginUser(request):
     # Processing of the user credentials to be logged in
     if request.method == 'POST':
         # Retrieve user credentials
-        username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
 
         #Check if that user exists
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, 'User does not exist')
 
         # Makes sure the credentials of the existing user are correct
         # and get the user object that matches/based on the credentials.
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         # log in the user and redirect them to the home page. This creates a session in the DB and the Browser
         if user is not None :
@@ -54,11 +53,11 @@ def logoutUser(request):
     return redirect('home')
 
 def registerUser(request):
-    form = UserCreationForm()
+    form = MyUserCreationForm()
 
     # Processing of the user credentials to be created/registered
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False) # commit = to get the user obj right away to clean the data
             user.username = user.username.lower()
@@ -221,7 +220,7 @@ def updateUser(request):
     form = UserForm(instance=request.user)
 
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
+        form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk=user.id)
