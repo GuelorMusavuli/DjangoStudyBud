@@ -3,10 +3,9 @@ from django.http import HttpResponse
 from django.contrib import messages # for flash messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q # for seqrch query
-from django.contrib.auth.models import User # built-in user
 from django.contrib.auth import authenticate, login, logout # built-in methods
 from django.contrib.auth.forms import UserCreationForm # built-in usercreation form
-from .models import Room, Topic, Message # models
+from .models import Room, Topic, Message, User # models
 from .forms import RoomForm, UserForm # custom forms
 
 

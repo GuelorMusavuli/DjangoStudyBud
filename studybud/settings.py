@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
+# Set the custom user model as the authentication model in place of the built-in one
+AUTH_USER_MODEL = 'base_app.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

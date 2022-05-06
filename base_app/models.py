@@ -1,7 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User # built-user model
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
+
+# Custom user model class
+class User(AbstractUser):
+    """Custom user model that overrides the built-in's properties"""
+    name = models.CharField(max_length=200, null=True)
+    email = models.EmailField(unique=True, null=True)
+    bio = models.TextField(null=True)
+
+    # avatar =
+
+    USERNAME_FIELD = 'email' # shift the username to email
+    REQUIRED_FIELDS = []
+
 class Topic(models.Model):
     name = models.CharField(max_length=200)
 
